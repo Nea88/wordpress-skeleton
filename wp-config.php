@@ -2,15 +2,22 @@
 // ===================================================
 // Load database info and local development parameters
 // ===================================================
+
+function mysql_connection_string_from_database_url() {
+    extract(parse_url($_ENV["DATABASE_URL"]));
+    return "user=$user password=$pass host=$host dbname=" . substr($path, 1);
+}
+
 if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'WP_LOCAL_DEV', true );
 	include( dirname( __FILE__ ) . '/local-config.php' );
 } else {
+	extract(parse_url($_ENV["DATABASE_URL"]));
 	define( 'WP_LOCAL_DEV', false );
-	define( 'DB_NAME', '%%DB_NAME%%' );
-	define( 'DB_USER', '%%DB_USER%%' );
-	define( 'DB_PASSWORD', '%%DB_PASSWORD%%' );
-	define( 'DB_HOST', '%%DB_HOST%%' ); // Probably 'localhost'
+	define( 'DB_NAME', substr($path, 1) );
+	define( 'DB_USER', $user );
+	define( 'DB_PASSWORD', $pass );
+	define( 'DB_HOST', $host ); // Probably 'localhost'
 }
 
 // ========================
