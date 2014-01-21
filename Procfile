@@ -1,4 +1,3 @@
 {
-    web: index.php,
-    worker: "dokku mysql:create wordpress-skeleton"
+    web: index.php
 }
