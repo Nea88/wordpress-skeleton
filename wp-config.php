@@ -8,6 +8,7 @@ function mysql_connection_string_from_database_url() {
     return "user=$user password=$pass host=$host dbname=" . substr($path, 1);
 }
 
+
 if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'WP_LOCAL_DEV', true );
 	include( dirname( __FILE__ ) . '/local-config.php' );
