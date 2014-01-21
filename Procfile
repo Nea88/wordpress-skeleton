@@ -1,3 +1,3 @@
 {
-    worker: dokku mysql:create wordpress-skeleton
+    worker: "dokku mysql:create wordpress-skeleton"
 }
