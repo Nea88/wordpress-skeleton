@@ -1,14 +1,20 @@
 <?php
-// ===================================================
-// Load database info and local development parameters
-// ===================================================
+/**
+ * Основные параметры WordPress.
+ *
+ * Этот файл содержит следующие параметры: настройки MySQL, префикс таблиц,
+ * секретные ключи, язык WordPress и ABSPATH. Дополнительную информацию можно найти
+ * на странице {@link http://codex.wordpress.org/Editing_wp-config.php Editing
+ * wp-config.php} Кодекса. Настройки MySQL можно узнать у хостинг-провайдера.
+ *
+ * Этот файл используется сценарием создания wp-config.php в процессе установки.
+ * Необязательно использовать веб-интерфейс, можно скопировать этот файл
+ * с именем "wp-config.php" и заполнить значения.
+ *
+ * @package WordPress
+ */
 
-function mysql_connection_string_from_database_url() {
-    extract(parse_url($_ENV["DATABASE_URL"]));
-    return "user=$user password=$pass host=$host dbname=" . substr($path, 1);
-}
-
-
+// ** Параметры MySQL: Эту информацию можно получить у вашего хостинг-провайдера ** //
 if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'WP_LOCAL_DEV', true );
 	include( dirname( __FILE__ ) . '/local-config.php' );
@@ -21,71 +27,69 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'DB_HOST', $host ); // Probably 'localhost'
 }
 
-// ========================
-// Custom Content Directory
-// ========================
-define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
-define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/content' );
+/** Кодировка базы данных для создания таблиц. */
+define('DB_CHARSET', 'utf8');
 
-// ================================================
-// You almost certainly do not want to change these
-// ================================================
-define( 'DB_CHARSET', 'utf8' );
-define( 'DB_COLLATE', '' );
+/** Схема сопоставления. Не меняйте, если не уверены. */
+define('DB_COLLATE', '');
 
-// ==============================================================
-// Salts, for security
-// Grab these from: https://api.wordpress.org/secret-key/1.1/salt
-// ==============================================================
-define( 'AUTH_KEY',         'put your unique phrase here' );
-define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
-define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
-define( 'NONCE_KEY',        'put your unique phrase here' );
-define( 'AUTH_SALT',        'put your unique phrase here' );
-define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
-define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
-define( 'NONCE_SALT',       'put your unique phrase here' );
+/**#@+
+ * Уникальные ключи и соли для аутентификации.
+ *
+ * Смените значение каждой константы на уникальную фразу.
+ * Можно сгенерировать их с помощью {@link https://api.wordpress.org/secret-key/1.1/salt/ сервиса ключей на WordPress.org}
+ * Можно изменить их, чтобы сделать существующие файлы cookies недействительными. Пользователям потребуется снова авторизоваться.
+ *
+ * @since 2.6.0
+ */
+define('AUTH_KEY',         'впишите сюда уникальную фразу');
+define('SECURE_AUTH_KEY',  'впишите сюда уникальную фразу');
+define('LOGGED_IN_KEY',    'впишите сюда уникальную фразу');
+define('NONCE_KEY',        'впишите сюда уникальную фразу');
+define('AUTH_SALT',        'впишите сюда уникальную фразу');
+define('SECURE_AUTH_SALT', 'впишите сюда уникальную фразу');
+define('LOGGED_IN_SALT',   'впишите сюда уникальную фразу');
+define('NONCE_SALT',       'впишите сюда уникальную фразу');
 
-// ==============================================================
-// Table prefix
-// Change this if you have multiple installs in the same database
-// ==============================================================
+/**#@-*/
+
+/**
+ * Префикс таблиц в базе данных WordPress.
+ *
+ * Можно установить несколько блогов в одну базу данных, если вы будете использовать
+ * разные префиксы. Пожалуйста, указывайте только цифры, буквы и знак подчеркивания.
+ */
 $table_prefix  = 'wp_';
 
-// ================================
-// Language
-// Leave blank for American English
-// ================================
-define( 'WPLANG', 'ru_RU' );
+/**
+ * Язык локализации WordPress, по умолчанию английский.
+ *
+ * Измените этот параметр, чтобы настроить локализацию. Соответствующий MO-файл
+ * для выбранного языка должен быть установлен в wp-content/languages. Например,
+ * чтобы включить поддержку русского языка, скопируйте ru_RU.mo в wp-content/languages
+ * и присвойте WPLANG значение 'ru_RU'.
+ */
+define('WPLANG', 'ru_RU');
 
-// ===========
-// Hide errors
-// ===========
-ini_set( 'display_errors', 0 );
-define( 'WP_DEBUG_DISPLAY', false );
+/**
+ * Для разработчиков: Режим отладки WordPress.
+ *
+ * Измените это значение на true, чтобы включить отображение уведомлений при разработке.
+ * Настоятельно рекомендуется, чтобы разработчики плагинов и тем использовали WP_DEBUG
+ * в своём рабочем окружении.
+ */
+define('WP_DEBUG', false);
 
-// =================================================================
-// Debug mode
-// Debugging? Enable these. Can also enable them in local-config.php
-// =================================================================
-// define( 'SAVEQUERIES', true );
-// define( 'WP_DEBUG', true );
-
+/* Это всё, дальше не редактируем. Успехов! */
 // ======================================
 // Load a Memcached config if we have one
 // ======================================
 if ( file_exists( dirname( __FILE__ ) . '/memcached.php' ) )
 	$memcached_servers = include( dirname( __FILE__ ) . '/memcached.php' );
 
-// ===========================================================================================
-// This can be used to programatically set the stage when deploying (e.g. production, staging)
-// ===========================================================================================
-define( 'WP_STAGE', '%%WP_STAGE%%' );
-define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack to handle staging domain rewriting
-
-// ===================
-// Bootstrap WordPress
-// ===================
-if ( !defined( 'ABSPATH' ) )
+/** Абсолютный путь к директории WordPress. */
+if ( !defined('ABSPATH') )
 	define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
-require_once( ABSPATH . 'wp-settings.php' );
+
+/** Инициализирует переменные WordPress и подключает файлы. */
+require_once(ABSPATH . 'wp-settings.php');
