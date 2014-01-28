@@ -33,6 +33,13 @@ define('DB_CHARSET', 'utf8');
 /** Схема сопоставления. Не меняйте, если не уверены. */
 define('DB_COLLATE', '');
 
+// ========================
+// Custom Content Directory
+// ========================
+define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
+define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/content' );
+
+
 /**#@+
  * Уникальные ключи и соли для аутентификации.
  *
