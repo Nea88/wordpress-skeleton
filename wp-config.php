@@ -39,6 +39,8 @@ define('DB_COLLATE', '');
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
 define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/content' );
 
+// Custom languages dir
+define( 'WP_LANG_DIR', dirname(__FILE__) . '/wp/wp-content/languages' );
 
 /**#@+
  * Уникальные ключи и соли для аутентификации.
