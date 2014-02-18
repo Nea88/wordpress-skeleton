@@ -52,8 +52,8 @@ define( 'WP_LANG_DIR', dirname(__FILE__) . '/wp/wp-content/languages' );
  * @since 2.6.0
  */
  
- define('WP_HOME','http://HOST/wp'); 
- define('WP_SITEURL','http://HOST');
+ define('WP_HOME','http://SITE_URL/wp'); 
+ define('WP_SITEURL','http://SITE_URL');
  
 define('AUTH_KEY',         'впишите сюда уникальную фразу');
 define('SECURE_AUTH_KEY',  'впишите сюда уникальную фразу');
